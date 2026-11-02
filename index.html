@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f4ed">
+  <title>Marlowby — A little piece of somewhere</title>
+  <meta name="description" content="Discover America's most interesting cities, one thoughtfully curated box at a time.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f7f4ed;
+      --white: #fffefa;
+      --ink: #252c28;
+      --muted: #737a70;
+      --green: #315b49;
+      --green-dark: #244536;
+      --sage: #dce6d9;
+      --orange: #d8794d;
+      --line: #e7e3d9;
+      --shadow: 0 18px 50px rgba(37,44,40,.09);
+      --serif: "Playfair Display", Georgia, serif;
+      --sans: "DM Sans", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); }
+    button, input { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; text-decoration: none; }
+    .announcement { padding: 10px 20px; text-align: center; background: var(--green); color: white; font-size: 12px; letter-spacing: .08em; }
+    .announcement strong { color: #f6c9a7; font-weight: 700; }
+    header { position: sticky; top: 0; z-index: 20; background: rgba(247,244,237,.94); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(231,227,217,.8); }
+    .nav { max-width: 1180px; margin: auto; height: 76px; padding: 0 26px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 10px; font: 600 27px var(--serif); letter-spacing: -.04em; }
+    .brand-mark { width: 31px; height: 31px; border-radius: 10px 10px 10px 3px; background: var(--green); color: white; display: grid; place-items: center; font: 600 17px var(--serif); transform: rotate(-5deg); }
+    .nav-links { display: flex; gap: 31px; align-items: center; color: #555e56; font-size: 13px; font-weight: 600; }
+    .nav-links a:hover { color: var(--orange); }
+    .nav-actions { display: flex; align-items: center; gap: 13px; }
+    .cart-button { border: 1px solid var(--line); background: var(--white); color: var(--ink); border-radius: 999px; padding: 10px 15px; cursor: pointer; font-size: 13px; font-weight: 700; }
+    .cart-count { display: inline-grid; place-items: center; min-width: 19px; height: 19px; margin-left: 5px; border-radius: 50%; background: var(--green); color: white; font-size: 10px; }
+    .menu-toggle { display: none; border: 0; background: none; font-size: 23px; cursor: pointer; }
+    .hero { max-width: 1180px; margin: auto; padding: 72px 26px 80px; display: grid; grid-template-columns: 1fr 1.03fr; gap: 56px; align-items: center; }
+    .eyebrow { color: var(--orange); text-transform: uppercase; letter-spacing: .17em; font-size: 10px; font-weight: 700; }
+    h1,h2,h3,p { margin-top: 0; }
+    h1 { max-width: 540px; margin: 18px 0 20px; font: 600 clamp(48px,6vw,76px)/1.02 var(--serif); letter-spacing: -.045em; }
+    h1 em { color: var(--green); font-weight: 500; }
+    .hero-copy { max-width: 465px; color: var(--muted); font-size: 15px; line-height: 1.85; }
+    .hero-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .btn { display: inline-flex; justify-content: center; align-items: center; gap: 9px; padding: 14px 21px; border-radius: 999px; border: 1px solid transparent; cursor: pointer; font-size: 12px; font-weight: 700; transition: .2s ease; }
+    .btn-primary { background: var(--green); color: white; }
+    .btn-primary:hover { background: var(--green-dark); transform: translateY(-2px); }
+    .btn-secondary { border-color: #d8d8cc; background: transparent; color: var(--ink); }
+    .btn-secondary:hover { background: white; }
+    .hero-note { display: flex; align-items: center; gap: 10px; margin-top: 30px; color: var(--muted); font-size: 11px; }
+    .avatar-stack { display: flex; }
+    .avatar-stack span { display: grid; place-items: center; width: 26px; height: 26px; margin-left: -5px; border: 2px solid var(--paper); border-radius: 50%; background: #e7b99b; font-size: 10px; }
+    .avatar-stack span:first-child { margin-left: 0; background: #b7c8ad; }
+    .hero-art { position: relative; min-height: 470px; }
+    .hero-photo { position: absolute; inset: 0 25px 0 30px; border-radius: 48% 48% 18px 18px; overflow: hidden; background: #b7c6b1; }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(.82); }
+    .hero-photo:after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(20,38,29,.43)); }
+    .floating-card { position: absolute; z-index: 2; background: var(--white); box-shadow: var(--shadow); border-radius: 13px; padding: 15px 17px; }
+    .floating-card small { display: block; color: var(--muted); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }
+    .floating-card strong { display: block; margin-top: 5px; font: 600 18px var(--serif); }
+    .card-top { top: 48px; left: 0; transform: rotate(-5deg); }
+    .card-bottom { right: 0; bottom: 40px; transform: rotate(4deg); }
+    .stamp { position: absolute; z-index: 3; right: 0; top: 23px; width: 83px; height: 83px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.8); outline: 1px solid rgba(255,255,255,.6); outline-offset: -7px; border-radius: 50%; background: var(--orange); color: white; text-align: center; font: 600 12px/1.3 var(--serif); transform: rotate(10deg); }
+    .section { padding: 88px 26px; }
+    .section-inner { max-width: 1180px; margin: auto; }
+    .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 25px; margin-bottom: 34px; }
+    h2 { margin: 11px 0 0; font: 600 clamp(34px,4vw,48px)/1.1 var(--serif); letter-spacing: -.035em; }
+    .section-intro { max-width: 370px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .cities-section { background: #eeeee5; }
+    .city-tools { display: flex; gap: 10px; align-items: center; }
+    .search-box { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border: 1px solid #dcded3; border-radius: 999px; background: rgba(255,255,255,.7); }
+    .search-box input { width: 150px; border: 0; outline: 0; background: transparent; font-size: 12px; color: var(--ink); }
+    .city-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 15px; }
+    .city-card { min-width: 0; background: var(--white); border-radius: 13px; overflow: hidden; box-shadow: 0 5px 18px rgba(37,44,40,.04); transition: .25s ease; }
+    .city-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+    .city-image { height: 205px; position: relative; overflow: hidden; background: #c9d1c2; }
+    .city-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+    .city-card:hover .city-image img { transform: scale(1.06); }
+    .city-tag { position: absolute; left: 12px; top: 12px; padding: 6px 9px; border-radius: 999px; background: rgba(255,254,250,.92); color: var(--green); font-size: 9px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
+    .city-info { padding: 17px 15px 18px; }
+    .city-info h3 { margin: 0 0 5px; font: 600 20px var(--serif); }
+    .city-info p { min-height: 35px; margin: 0 0 15px; color: var(--muted); font-size: 10px; line-height: 1.6; }
+    .text-link { display: inline-flex; align-items: center; gap: 6px; padding: 0; border: 0; background: none; color: var(--green); cursor: pointer; font-size: 10px; font-weight: 700; }
+    .text-link:hover { color: var(--orange); }
+    .empty-state { display: none; padding: 30px; text-align: center; color: var(--muted); grid-column: 1/-1; }
+    .how-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 30px; margin-top: 48px; }
+    .how-item { padding: 24px 24px 22px 0; border-top: 1px solid var(--line); }
+    .step { color: var(--orange); font: 600 14px var(--serif); }
+    .how-item h3 { margin: 16px 0 9px; font: 600 22px var(--serif); }
+    .how-item p { max-width: 300px; margin: 0; color: var(--muted); font-size: 12px; line-height: 1.8; }
+    .plans-section { background: var(--green); color: white; }
+    .plans-section .eyebrow { color: #eab18f; }
+    .plans-section .section-intro { color: #c6d1c8; }
+    .plans-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 17px; margin-top: 38px; align-items: stretch; }
+    .plan-card { position: relative; padding: 29px 27px; border: 1px solid rgba(255,255,255,.2); border-radius: 14px; background: rgba(255,255,255,.06); }
+    .plan-card.featured { background: var(--white); color: var(--ink); border-color: var(--white); box-shadow: 0 15px 40px rgba(0,0,0,.15); }
+    .popular { position: absolute; top: -12px; right: 20px; padding: 6px 11px; border-radius: 999px; background: var(--orange); color: white; font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    .plan-name { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .price { margin: 18px 0 5px; font: 600 43px var(--serif); letter-spacing: -.04em; }
+    .price span { font: 400 12px var(--sans); letter-spacing: 0; color: #c6d1c8; }
+    .featured .price span { color: var(--muted); }
+    .plan-desc { min-height: 42px; margin: 0 0 22px; color: #c6d1c8; font-size: 11px; line-height: 1.7; }
+    .featured .plan-desc { color: var(--muted); }
+    .plan-list { display: grid; gap: 12px; min-height: 130px; margin: 0 0 24px; padding: 19px 0 0; border-top: 1px solid rgba(255,255,255,.18); list-style: none; font-size: 11px; }
+    .featured .plan-list { border-color: var(--line); }
+    .plan-list li:before { content: "✓"; margin-right: 9px; color: #eab18f; font-weight: 700; }
+    .featured .plan-list li:before { color: var(--green); }
+    .plan-card .btn { width: 100%; }
+    .plan-card:not(.featured) .btn { border-color: rgba(255,255,255,.45); color: white; }
+    .plan-card:not(.featured) .btn:hover { background: rgba(255,255,255,.12); }
+    .individual { padding: 75px 26px; }
+    .individual-inner { max-width: 1180px; margin: auto; padding: 38px 45px; display: flex; justify-content: space-between; align-items: center; gap: 35px; border-radius: 16px; background: #e8d9c8; }
+    .individual h2 { max-width: 480px; font-size: 36px; }
+    .individual p { max-width: 450px; margin: 12px 0 0; color: #6f7066; font-size: 12px; line-height: 1.8; }
+    .box-illustration { width: 160px; min-width: 130px; height: 125px; position: relative; margin-right: 25px; }
+    .box-illustration .lid { position: absolute; left: 14px; top: 14px; width: 132px; height: 28px; background: #b96f4e; transform: skewY(-13deg); border-radius: 4px; }
+    .box-illustration .base { position: absolute; left: 22px; top: 38px; width: 116px; height: 76px; background: #d18a63; clip-path: polygon(0 0,100% 0,88% 100%,12% 100%); }
+    .box-illustration .ribbon { position: absolute; left: 72px; top: 14px; width: 17px; height: 98px; background: #f2d8b8; transform: skewY(-13deg); }
+    .box-illustration .bow { position: absolute; left: 59px; top: 3px; width: 43px; height: 23px; border: 7px solid #f2d8b8; border-radius: 50% 50% 5px 50%; transform: rotate(16deg); }
+    footer { background: #222d27; color: white; padding: 55px 26px 25px; }
+    .footer-inner { max-width: 1180px; margin: auto; display: flex; justify-content: space-between; gap: 35px; }
+    .footer-brand p { max-width: 280px; margin: 14px 0 0; color: #aebbb1; font-size: 11px; line-height: 1.8; }
+    .footer-links { display: flex; gap: 65px; }
+    .footer-links strong { display: block; margin-bottom: 15px; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+    .footer-links a { display: block; margin: 10px 0; color: #b9c3bb; font-size: 11px; }
+    .footer-links a:hover { color: white; }
+    .copyright { max-width: 1180px; margin: 42px auto 0; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.13); color: #89968c; font-size: 10px; }
+    .modal-backdrop { position: fixed; inset: 0; z-index: 50; display: none; align-items: center; justify-content: center; padding: 20px; background: rgba(20,29,24,.58); }
+    .modal-backdrop.open { display: flex; }
+    .modal { width: min(100%,480px); max-height: 90vh; overflow: auto; padding: 28px; border-radius: 16px; background: var(--white); box-shadow: 0 25px 80px rgba(0,0,0,.25); }
+    .modal-head { display: flex; justify-content: space-between; align-items: start; gap: 20px; }
+    .modal h3 { margin: 0; font: 600 29px var(--serif); }
+    .close { width: 32px; height: 32px; border: 0; border-radius: 50%; background: #f0eee7; cursor: pointer; font-size: 18px; }
+    .modal-copy { margin: 12px 0 20px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+    .modal label { display: block; margin: 14px 0 6px; font-size: 10px; font-weight: 700; color: #59645c; text-transform: uppercase; letter-spacing: .08em; }
+    .modal input { width: 100%; padding: 12px 13px; border: 1px solid var(--line); border-radius: 8px; outline: 0; background: white; }
+    .modal input:focus { border-color: var(--green); }
+    .modal .btn { width: 100%; margin-top: 20px; }
+    .modal-note { margin: 12px 0 0; color: var(--muted); font-size: 10px; text-align: center; }
+    .cart-items { display: grid; gap: 12px; margin: 20px 0; }
+    .cart-line { display: flex; justify-content: space-between; gap: 15px; padding-bottom: 12px; border-bottom: 1px solid var(--line); font-size: 12px; }
+    .cart-line small { display: block; margin-top: 4px; color: var(--muted); }
+    .remove-item { border: 0; background: none; color: #b15c3e; cursor: pointer; font-size: 10px; }
+    .cart-total { display: flex; justify-content: space-between; padding-top: 5px; font-weight: 700; }
+    .toast { position: fixed; z-index: 70; left: 50%; bottom: 24px; transform: translate(-50%,20px); padding: 12px 18px; border-radius: 999px; background: #263d31; color: white; opacity: 0; pointer-events: none; transition: .25s; font-size: 12px; box-shadow: var(--shadow); }
+    .toast.show { opacity: 1; transform: translate(-50%,0); }
+    @media (max-width: 950px) {
+      .hero { gap: 25px; }
+      .city-grid { grid-template-columns: repeat(3,1fr); }
+      .city-card:nth-of-type(n+4) { display: block; }
+      .city-image { height: 190px; }
+    }
+    @media (max-width: 700px) {
+      .nav { height: 66px; padding: 0 18px; }
+      .menu-toggle { display: block; }
+      .nav-links { display: none; position: absolute; top: 66px; left: 0; right: 0; padding: 20px; flex-direction: column; align-items: start; gap: 18px; background: var(--paper); border-bottom: 1px solid var(--line); }
+      .nav-links.open { display: flex; }
+      .nav-actions .cart-button { padding: 9px 11px; }
+      .hero { padding: 52px 20px 58px; grid-template-columns: 1fr; }
+      .hero-art { min-height: 390px; margin: 0 4px; }
+      .hero-photo { inset: 0 18px; }
+      .section { padding: 65px 20px; }
+      .section-heading { display: block; }
+      .section-intro { margin-top: 15px; }
+      .city-tools { margin-top: 20px; }
+      .city-grid { grid-template-columns: repeat(2,1fr); gap: 11px; }
+      .city-image { height: 155px; }
+      .city-info { padding: 14px 12px; }
+      .city-info h3 { font-size: 18px; }
+      .how-grid { grid-template-columns: 1fr; gap: 10px; margin-top: 30px; }
+      .how-item { padding-bottom: 15px; }
+      .plans-grid { grid-template-columns: 1fr; gap: 23px; }
+      .plan-desc,.plan-list { min-height: 0; }
+      .individual { padding: 50px 20px; }
+      .individual-inner { padding: 28px 25px; align-items: start; }
+      .box-illustration { display: none; }
+      .individual h2 { font-size: 30px; }
+      .footer-inner { flex-direction: column; }
+      .footer-links { gap: 40px; }
+    }
+    @media (max-width: 390px) {
+      .city-grid { grid-template-columns: 1fr; }
+      .city-image { height: 205px; }
+      .search-box input { width: 120px; }
+      .brand { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="announcement">A new city, a new story — <strong>delivered every month.</strong></div>
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="#home" aria-label="Marlowby home"><span class="brand-mark">m</span> marlowby</a>
+      <div class="nav-links" id="navLinks">
+        <a href="#cities">Explore cities</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#plans">Subscriptions</a>
+        <a href="#individual">Gift a box</a>
+      </div>
+      <div class="nav-actions">
+        <button class="cart-button" id="cartOpen" aria-label="Open shopping bag">Bag <span class="cart-count" id="cartCount">0</span></button>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div>
+        <div class="eyebrow">A little piece of somewhere</div>
+        <h1>Somewhere new is <em>closer</em> than you think.</h1>
+        <p class="hero-copy">Meet Marlowby. We bring the character of America's favorite cities right to your doorstep, with thoughtfully picked local-inspired finds, little surprises, and stories worth sharing.</p>
+        <div class="hero-buttons">
+          <a class="btn btn-primary" href="#cities">Find your next city <span>↗</span></a>
+          <a class="btn btn-secondary" href="#plans">Explore subscriptions</a>
+        </div>
+        <div class="hero-note">
+          <div class="avatar-stack"><span>✦</span><span>✿</span><span>♡</span></div>
+          <span>Curated with care. Made for the curious.</span>
+        </div>
+      </div>
+      <div class="hero-art" aria-label="A curated travel-inspired gift box">
+        <div class="hero-photo">
+          <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1100&q=85" alt="Warm, colorful flowers arranged on a table">
+        </div>
+        <div class="floating-card card-top"><small>Your next stop</small><strong>Somewhere wonderful.</strong></div>
+        <div class="stamp">MADE FOR<br>THE CURIOUS</div>
+        <div class="floating-card card-bottom"><small>Inside every box</small><strong>A city, a story, a surprise.</strong></div>
+      </div>
+    </section>
+
+    <section class="section cities-section" id="cities">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div><div class="eyebrow">Pick a place to begin</div><h2>Five cities. So many stories.</h2></div>
+          <p class="section-intro">Every city has its own kind of magic. Browse our current collection and find the place you want to bring home.</p>
+        </div>
+        <div class="city-tools">
+          <div class="search-box"><span>⌕</span><input id="citySearch" type="search" placeholder="Find a city..." aria-label="Search cities"></div>
+        </div>
+        <div class="city-grid" id="cityGrid">
+          <article class="city-card" data-city="wichita kansas">
+            <div class="city-image"><img src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=700&q=80" alt="Wide open prairie beneath a colorful sunset" loading="lazy"><span class="city-tag">The heart of it</span></div>
+            <div class="city-info"><h3>Wichita, KS</h3><p>Prairie spirit, local makers, and a little Midwestern charm.</p><button class="text-link city-detail" data-city-name="Wichita, KS">Explore Wichita <span>→</span></button></div>
+          </article>
+          <article class="city-card" data-city="austin texas">
+            <div class="city-image"><img src="https://images.unsplash.com/photo-1531218150217-54595bc2b934?auto=format&fit=crop&w=700&q=80" alt="Austin skyline at dusk" loading="lazy"><span class="city-tag">Keep it weird</span></div>
+            <div class="city-info"><h3>Austin, TX</h3><p>Live-music energy, bold flavors, and creative finds.</p><button class="text-link city-detail" data-city-name="Austin, TX">Explore Austin <span>→</span></button></div>
+          </article>
+          <article class="city-card" data-city="nashville tennessee">
+            <div class="city-image"><img src="https://assets.vogue.com/photos/66b34946cd90909dd5dbad65/master/w_2560%2Cc_limit/GettyImages-2075733232.jpg?auto=format&fit=crop&w=700&q=80" alt="Nashville street and city architecture" loading="lazy"><span class="city-tag">Music city</span></div>
+            <div class="city-info"><h3>Nashville, TN</h3><p>Songwriter soul, Southern flavors, and creative roots.</p><button class="text-link city-detail" data-city-name="Nashville, TN">Explore Nashville <span>→</span></button></div>
+          </article>
+          <article class="city-card" data-city="salem oregon">
+            <div class="city-image"><img src="https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=700&q=80" alt="Misty evergreen forest in the Pacific Northwest" loading="lazy"><span class="city-tag">Into the green</span></div>
+            <div class="city-info"><h3>Salem, OR</h3><p>Evergreen days, makers, gardens, and Northwest calm.</p><button class="text-link city-detail" data-city-name="Salem, OR">Explore Salem <span>→</span></button></div>
+          </article>
+          <article class="city-card" data-city="st louis missouri saint">
+            <div class="city-image"><img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=700&q=80" alt="City skyline and historic architecture" loading="lazy"><span class="city-tag">Gateway to more</span></div>
+            <div class="city-info"><h3>St. Louis, MO</h3><p>Big landmarks, neighborhood gems, and timeless flavor.</p><button class="text-link city-detail" data-city-name="St. Louis, MO">Explore St. Louis <span>→</span></button></div>
+          </article>
+          <div class="empty-state" id="emptyState">No cities match that search. Try another name.</div>
+        </div>  
+      </div>
+    </section>
+
+    <section class="section" id="how-it-works">
+      <div class="section-inner">
+        <div class="eyebrow">The Marlowby way</div>
+        <h2>Good things come in little boxes.</h2>
+        <div class="how-grid">
+          <article class="how-item"><span class="step">01 / Choose your way</span><h3>Make it yours</h3><p>Pick a monthly plan or choose a city box whenever the mood strikes. There's no one right way to explore.</p></article>
+          <article class="how-item"><span class="step">02 / We do the digging</span><h3>Thoughtfully curated</h3><p>We bring together city-inspired keepsakes, useful finds, and small details that capture the local spirit.</p></article>
+          <article class="how-item"><span class="step">03 / A new place arrives</span><h3>Open up somewhere new</h3><p>Your box arrives ready to enjoy, gift, or share. A little reminder that there's always more to discover.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section plans-section" id="plans">
+      <div class="section-inner">
+        <div class="section-heading">
+          <div><div class="eyebrow">A little something every month</div><h2>Find the plan that feels right.</h2></div>
+          <p class="section-intro">Three ways to explore. Every subscription brings a new city-inspired box to your door each month.</p>
+        </div>
+        <div class="plans-grid">
+          <article class="plan-card">
+            <div class="plan-name">Bronze</div><div class="price">$15<span> / month</span></div>
+            <p class="plan-desc">A smaller taste of somewhere new.</p>
+            <ul class="plan-list"><li>Smaller curated city box</li><li>Featured city picked for you</li><li>A new destination each month</li></ul>
+            <button class="btn" data-plan="Bronze" data-price="15">Choose Bronze <span>→</span></button>
+          </article>
+          <article class="plan-card featured">
+            <span class="popular">Most loved</span>
+            <div class="plan-name">Premium</div><div class="price">$34<span> / month</span></div>
+            <p class="plan-desc">Your city, your choice, your monthly surprise.</p>
+            <ul class="plan-list"><li>Full-size curated city box</li><li>Choose the featured city</li><li>Fresh finds every month</li><li>Our most complete experience</li></ul>
+            <button class="btn btn-primary" data-plan="Premium" data-price="34">Choose Premium <span>→</span></button>
+          </article>
+          <article class="plan-card">
+            <div class="plan-name">Silver</div><div class="price">$25<span> / month</span></div>
+            <p class="plan-desc">A full-size box with a fun surprise destination.</p>
+            <ul class="plan-list"><li>Full curated city box</li><li>Featured city picked at random</li><li>A new destination each month</li></ul>
+            <button class="btn" data-plan="Silver" data-price="25">Choose Silver <span>→</span></button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="individual" id="individual">
+      <div class="individual-inner">
+        <div><div class="eyebrow">No subscription needed</div><h2>Just one box? That works, too.</h2><p>Pick the city you're curious about and order a box whenever you like. It's a lovely way to try Marlowby, send a gift, or revisit a favorite place.</p><div style="margin-top:22px"><a class="btn btn-primary" href="#cities">Shop individual boxes <span>→</span></a></div></div>
+        <div class="box-illustration" aria-hidden="true"><div class="lid"></div><div class="base"></div><div class="ribbon"></div><div class="bow"></div></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand"><a class="brand" href="#home"><span class="brand-mark">m</span> marlowby</a><p>A little piece of somewhere. Thoughtfully curated city-inspired boxes for people who love discovering new places.</p></div>
+      <div class="footer-links"><div><strong>Explore</strong><a href="#cities">Our cities</a><a href="#how-it-works">How it works</a><a href="#plans">Subscriptions</a></div><div><strong>Say hello</strong><a href="mailto:hello@marlowby.com">Email us</a><a href="#individual">Gift a box</a><a href="#home">Back to top ↑</a></div></div>
+    </div>
+    <div class="copyright">© <span id="year"></span> Marlowby. Made for the curious.</div>
+  </footer>
+
+  <!-- These dialogs are intentionally lightweight; a real store would connect checkout to its payment provider. -->
+  <div class="modal-backdrop" id="productModal" role="dialog" aria-modal="true" aria-labelledby="productTitle">
+    <div class="modal"><div class="modal-head"><h3 id="productTitle">A city box</h3><button class="close" data-close aria-label="Close dialog">×</button></div><p class="modal-copy" id="productDescription"></p><label for="customerName">Your name</label><input id="customerName" placeholder="How should we address you?"><label for="customerEmail">Email address</label><input id="customerEmail" type="email" placeholder="you@example.com"><button class="btn btn-primary" id="addToBag">Add to bag</button><p class="modal-note">Demo storefront — no payment will be collected.</p></div>
+  </div>
+
+  <div class="modal-backdrop" id="cartModal" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+    <div class="modal"><div class="modal-head"><h3 id="cartTitle">Your bag</h3><button class="close" data-close aria-label="Close dialog">×</button></div><div class="cart-items" id="cartItems"></div><div class="cart-total"><span>Total</span><span id="cartTotal">$0.00</span></div><button class="btn btn-primary" id="checkoutButton">Continue</button><p class="modal-note">This is a front-end demo. Checkout and subscriptions need a secure store/payment backend.</p></div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // The small bit of state below keeps the demo shop working without a server.
+    const cart = [];
+    let pendingItem = null;
+
+    const cities = {
+      "Wichita, KS": "A little Wichita in a box: think local creativity, prairie-inspired details, and the welcoming spirit of the heartland.",
+      "Austin, TX": "Bring home a little Austin energy with finds inspired by live music, independent makers, and bold Texas character.",
+      "Nashville, TN": "A Nashville-inspired collection full of music-city personality, Southern charm, and thoughtful local-inspired finds.",
+      "Salem, OR": "A little Pacific Northwest in your home, inspired by Salem's gardens, evergreen landscapes, and creative community.",
+      "St. Louis, MO": "Discover St. Louis through a curated mix inspired by its neighborhoods, landmarks, food culture, and Midwestern roots."
+    };
+
+    const productModal = document.getElementById("productModal");
+    const cartModal = document.getElementById("cartModal");
+    const toast = document.getElementById("toast");
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => toast.classList.remove("show"), 2600);
+    }
+
+    function openProduct(name, price, description, type = "box") {
+      pendingItem = { name, price: Number(price), description, type };
+      document.getElementById("productTitle").textContent = name;
+      document.getElementById("productDescription").textContent = description;
+      productModal.classList.add("open");
+      document.getElementById("customerName").focus();
+    }
+
+    function closeModals() {
+      productModal.classList.remove("open");
+      cartModal.classList.remove("open");
+    }
+
+    function renderCart() {
+      const items = document.getElementById("cartItems");
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      document.getElementById("cartCount").textContent = cart.length;
+      document.getElementById("cartTotal").textContent = `$${total.toFixed(2)}`;
+
+      if (!cart.length) {
+        items.innerHTML = '<p class="modal-copy">Your bag is looking a little empty. Find a city that catches your eye.</p>';
+        document.getElementById("checkoutButton").disabled = true;
+        document.getElementById("checkoutButton").style.opacity = ".5";
+        return;
+      }
+
+      document.getElementById("checkoutButton").disabled = false;
+      document.getElementById("checkoutButton").style.opacity = "1";
+      items.innerHTML = cart.map((item, index) => `
+        <div class="cart-line">
+          <div><strong>${escapeHtml(item.name)}</strong><small>${item.type === "subscription" ? "Monthly subscription" : "One-time box"}</small></div>
+          <div style="text-align:right"><strong>$${item.price.toFixed(2)}</strong><br><button class="remove-item" data-remove="${index}">Remove</button></div>
+        </div>`).join("");
+    }
+
+    // Escape text before putting customer-facing item names into the cart markup.
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+      })[char]);
+    }
+
+    document.querySelectorAll(".city-detail").forEach(button => {
+      button.addEventListener("click", () => {
+        const city = button.dataset.cityName;
+        openProduct(`${city} City Box`, 29, cities[city] + " Individual boxes are a one-time purchase. The $29 price is a sample placeholder to replace with your actual price.");
+      });
+    });
+
+    document.querySelectorAll("[data-plan]").forEach(button => {
+      button.addEventListener("click", () => {
+        const plan = button.dataset.plan;
+        const price = button.dataset.price;
+        openProduct(`${plan} Monthly Plan`, price, `${plan} membership — one curated city box delivered each month. ${plan === "Premium" ? "Choose the city you want to explore." : plan === "Silver" ? "We'll surprise you with a featured city." : "A smaller curated box from one of our featured cities."}`, "subscription");
+      });
+    });
+
+    document.getElementById("addToBag").addEventListener("click", () => {
+      if (!pendingItem) return;
+      const email = document.getElementById("customerEmail").value.trim();
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        document.getElementById("customerEmail").focus();
+        showToast("Add a valid email address to continue.");
+        return;
+      }
+      cart.push({ ...pendingItem, email });
+      renderCart();
+      closeModals();
+      showToast(`${pendingItem.name} added to your bag.`);
+      pendingItem = null;
+    });
+
+    document.getElementById("cartOpen").addEventListener("click", () => {
+      renderCart();
+      cartModal.classList.add("open");
+    });
+
+    document.getElementById("cartItems").addEventListener("click", event => {
+      const removeButton = event.target.closest("[data-remove]");
+      if (!removeButton) return;
+      cart.splice(Number(removeButton.dataset.remove), 1);
+      renderCart();
+    });
+
+    document.getElementById("checkoutButton").addEventListener("click", () => {
+      showToast("Demo only — connect a checkout provider to accept orders.");
+    });
+
+    document.querySelectorAll("[data-close]").forEach(button => button.addEventListener("click", closeModals));
+    [productModal, cartModal].forEach(modal => {
+      modal.addEventListener("click", event => {
+        if (event.target === modal) closeModals();
+      });
+    });
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") closeModals();
+    });
+
+    // Search is deliberately forgiving: "Saint Louis" and "St. Louis" both find the same card.
+    document.getElementById("citySearch").addEventListener("input", event => {
+      const query = event.target.value.toLowerCase().replace(/[.,]/g, "").trim();
+      let visible = 0;
+      document.querySelectorAll(".city-card").forEach(card => {
+        const match = card.dataset.city.replace(/[.,]/g, "").includes(query);
+        card.style.display = match ? "" : "none";
+        if (match) visible++;
+      });
+      document.getElementById("emptyState").style.display = visible ? "none" : "block";
+    });
+
+    document.getElementById("menuToggle").addEventListener("click", () => {
+      document.getElementById("navLinks").classList.toggle("open");
+    });
+    document.querySelectorAll(".nav-links a").forEach(link => {
+      link.addEventListener("click", () => document.getElementById("navLinks").classList.remove("open"));
+    });
+    document.getElementById("year").textContent = new Date().getFullYear();
+    renderCart();
+  </script>
+</body>
+</html>
